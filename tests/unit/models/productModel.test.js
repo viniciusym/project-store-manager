@@ -27,6 +27,7 @@ describe('models/productModel', () => {
       expect(response).to.deep.equal(productsList);
     });
   });
+
   describe('exists', () => {
     it('deve retornar false caso o produto não exista no DB', async () => {
       sinon.stub(connection, 'query').returns([[]]);
@@ -41,6 +42,23 @@ describe('models/productModel', () => {
       const response = await productModel.exists();
 
       expect(response).to.be.true;
+    });
+  });
+
+  describe('getById', () => {
+    it('deve retornar undefined caso o produto não exista no DB', async () => {
+      sinon.stub(connection, 'query').returns([[]]);
+
+      const response = await productModel.getById(999);
+
+      expect(response).to.be.undefined
+    });
+    it('deve retornar o objeto do produto caso o produto exista no DB', async () => {
+      sinon.stub(connection, 'query').returns([[{ id: 1, name: 'Martelo de Thor' }]]);
+
+      const response = await productModel.getById(1);
+
+      expect(response).to.deep.equal({ id: 1, name: 'Martelo de Thor' });
     });
   });
 
