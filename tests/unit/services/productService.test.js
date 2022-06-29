@@ -7,7 +7,7 @@ describe('/services/productService', () => {
   beforeEach(() => sinon.restore());
 
   describe('getAll', () => {
-    it('deve retornar undefined caso não tenha itens no DB', async () => {
+    it('deve retornar undefined caso o model não ache produtos', async () => {
       sinon.stub(productModel, 'getAll').returns(undefined);
 
       const response = await productService.getAll();
@@ -27,4 +27,23 @@ describe('/services/productService', () => {
       expect(response).to.deep.equal(productsList);
     });
   });
+
+  describe('exists', () => {
+    it('deve retornar false caso o model não ache o produto', async () => {
+      sinon.stub(productModel, 'exists').returns(false);
+
+      const response = await productService.exists();
+
+      expect(response).to.be.false;
+    });
+    it('deve retornar true caso o model ache o produto', async () => {
+      sinon.stub(productModel, 'exists').returns(true);
+
+      const response = await productService.exists();
+
+      expect(response).to.be.true;
+    });
+
+  });
+
 });
