@@ -43,7 +43,23 @@ describe('/services/productService', () => {
 
       expect(response).to.be.true;
     });
+  });
 
+  describe('getById', () => {
+    it('deve retornar undefined caso o model não ache o produto', async () => {
+      sinon.stub(productModel, 'getById').returns(undefined);
+
+      const response = await productService.getById(999);
+
+      expect(response).to.be.undefined
+    });
+    it('deve retornar o objeto do produto caso o model ache o produto', async () => {
+      sinon.stub(productModel, 'getById').returns({ id: 1, name: 'Martelo de Thor' });
+
+      const response = await productService.getById(1);
+
+      expect(response).to.deep.equal({ id: 1, name: 'Martelo de Thor' });
+    });
   });
 
 });
