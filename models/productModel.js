@@ -11,6 +11,11 @@ const productModel = {
     const [[product]] = await connection.query(sql, [id]);
     return product;
   },
+  async exists(id) {
+    const sql = 'select * from StoreManager.products where id = ?';
+    const [[product]] = await connection.query(sql, [id]);
+    return !!product;
+  },
 };
 
 module.exports = productModel;
