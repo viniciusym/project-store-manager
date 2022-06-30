@@ -39,4 +39,21 @@ describe('models/saleModel', () => {
       expect(productsSaleResponse).to.be.equal(1);
     });
   });
+
+  describe('exists', () => {
+    it('deve retornar false quando não encontrar o id da venda no DB', async () => {
+      sinon.stub(connection, 'query').resolves([[]]);
+
+      const saleExists = await saleModel.exists();
+
+      expect(saleExists).to.be.false;
+    });
+    it('deve retornar true quando encontrar o id da venda no DB', async () => {
+      sinon.stub(connection, 'query').resolves([[1]]);
+
+      const saleExists = await saleModel.exists();
+
+      expect(saleExists).to.be.true;
+    });
+  });
 })

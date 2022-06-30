@@ -8,8 +8,7 @@ const saleModel = {
   },
   async exists(id) {
     const sql = `
-    select date, product_id as productId, quantity from StoreManager.sales as a
-    join StoreManager.sales_products as sl on sl.sale_id = a.id where a.id = ?`;
+    select 1 from StoreManager.sales where id = ?`;
     const [[sales]] = await connection.query(sql, [id]);
     return !!sales;
   },
