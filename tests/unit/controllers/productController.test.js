@@ -61,4 +61,21 @@ describe('/services/productService', () => {
       expect(response.json.calledWith(productNotFoundMessage)).to.be.equal(true);
     }); 
   });
+
+  describe('insertNew', () => {
+    it('deve retornar o status 201 e uma lista de produtos', async () => {
+      const response = {};
+      const request = {};
+      request.body = { name: '1' };
+      const newProductObject = { name: '1', id: 1 };
+      sinon.stub(productService, 'insertNew').resolves(newProductObject);
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+
+      await productController.insertNew(request, response);
+
+      expect(response.status.calledWith(201)).to.be.equal(true);
+      expect(response.json.calledWith(newProductObject)).to.be.equal(true);
+    });
+  });
 });
