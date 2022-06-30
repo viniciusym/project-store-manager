@@ -6,6 +6,8 @@ const saleRoute = Router();
 
 saleRoute.post('', rescue(saleController.makeNewSale));
 
+saleRoute.get('', saleController.getAll);
+
 saleRoute.use((err, _req, res, _next) => {
   const { message } = err;
   const regexProductId = /.+?\.productId/;

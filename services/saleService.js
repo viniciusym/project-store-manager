@@ -3,6 +3,10 @@ const saleModel = require('../models/saleModel');
 const { exists } = require('./productService');
 
 const saleService = {
+  async getAll() {
+    const allSales = await saleModel.getAll();
+    return allSales;
+  },
   async validateNewSale(saleProducts) {
     const productObject = Joi.object({
       productId: Joi.number().required(),

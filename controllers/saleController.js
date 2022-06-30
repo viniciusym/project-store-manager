@@ -11,6 +11,10 @@ const saleController = {
     }
     return res.status(404).json({ message: 'Product not found' }); 
   },
+  async getAll(_req, res) {
+    const allSales = await saleService.getAll();
+    res.status(200).json(allSales);
+  },
 };
 
 module.exports = saleController;
