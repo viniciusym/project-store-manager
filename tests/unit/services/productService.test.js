@@ -62,4 +62,21 @@ describe('/services/productService', () => {
     });
   });
 
+
+  describe('insertNew', () => {
+    it('deve retornar um objeto com a chave id undefined caso o model não conseguir adicionar o produto', async () => {
+      sinon.stub(productModel, 'insertNew').returns(undefined);
+
+      const response = await productService.insertNew({});
+
+      expect(response.id).to.be.undefined
+    });
+    it('deve retornar o objeto com id e nome do novo produto caso o model adicionar o produto', async () => {
+      sinon.stub(productModel, 'insertNew').returns(1);
+
+      const response = await productService.insertNew({ name: 'product' });
+
+      expect(response).to.deep.equal({ id: 1, name: 'product' });
+    });
+  });
 });
