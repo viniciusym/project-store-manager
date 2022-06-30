@@ -6,6 +6,8 @@ const saleRoute = Router();
 
 saleRoute.post('', rescue(saleController.makeNewSale));
 
+saleRoute.get('/:id', saleController.getById);
+
 saleRoute.get('', saleController.getAll);
 
 saleRoute.use((err, _req, res, _next) => {

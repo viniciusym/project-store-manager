@@ -7,6 +7,14 @@ const saleService = {
     const allSales = await saleModel.getAll();
     return allSales;
   },
+  async exists(id) {
+    const saleExists = await saleModel.exists(id);
+    return saleExists;
+  },
+  async getById(id) {
+    const sales = await saleModel.getById(id);
+    return sales;
+  },
   async validateNewSale(saleProducts) {
     const productObject = Joi.object({
       productId: Joi.number().required(),
