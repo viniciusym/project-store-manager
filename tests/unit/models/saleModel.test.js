@@ -24,6 +24,19 @@ describe('models/saleModel', () => {
   });
 
   describe('insertNewSaleProducts', () => {
+    it('deve retornar undefined os produtos da venda não for adicionada no DB', async () => {
+      sinon.stub(connection, 'query').resolves([{}]);
 
+      const productsSaleResponse = await saleModel.insertNewSaleProducts();
+
+      expect(productsSaleResponse).to.be.undefined;
+    });
+    it('deve retornar undefined a venda não for adicionada no DB', async () => {
+      sinon.stub(connection, 'query').resolves([{ affectedRows: 1}]);
+
+      const productsSaleResponse = await saleModel.insertNewSaleProducts([1, 2, 3 ]);
+
+      expect(productsSaleResponse).to.be.equal(1);
+    });
   });
 })

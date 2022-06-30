@@ -8,8 +8,8 @@ const saleModel = {
   },
   async insertNewSaleProducts(products) {
     const sql = 'insert into StoreManager.sales_products(product_id, quantity, sale_id) values ?';
-    const response = await connection.query(sql, [products]); 
-    return response;
+    const [{ affectedRows }] = await connection.query(sql, [products]); 
+    return affectedRows;
   },
 };
 
