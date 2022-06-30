@@ -44,16 +44,46 @@ describe('models/saleModel', () => {
     it('deve retornar false quando não encontrar o id da venda no DB', async () => {
       sinon.stub(connection, 'query').resolves([[]]);
 
-      const saleExists = await saleModel.exists();
+      const saleExists = await saleModel.exists(111);
 
       expect(saleExists).to.be.false;
     });
     it('deve retornar true quando encontrar o id da venda no DB', async () => {
       sinon.stub(connection, 'query').resolves([[1]]);
 
-      const saleExists = await saleModel.exists();
+      const saleExists = await saleModel.exists(1);
 
       expect(saleExists).to.be.true;
+    });
+  });
+
+  describe('getById', () => {
+    it('deve retornar undefined quando o DB não retornar a venda', async () => {
+      sinon.stub(connection, 'query').resolves([]);
+
+      const sale = await saleModel.getById(111);
+
+      expect(sale).to.be.undefined;
+    });
+    it('deve retornar um array com as vendas e seus ids', async () => {
+      const salesList = [
+        {
+          "date": "2022-06-30T22:50:18.000Z",
+          "productId": 1,
+          "quantity": 5
+        },
+        {
+          "date": "2022-06-30T22:50:18.000Z",
+          "productId": 2,
+          "quantity": 10
+        }
+      ];
+      
+      sinon.stub(connection, 'query').resolves([salesList]);
+
+      const sale = await saleModel.getById(1);
+
+      expect(sale).to.deep.equal(salesList);
     });
   });
 })
