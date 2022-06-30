@@ -1,14 +1,25 @@
 const express = require('express');
 const productRoute = require('./routes/productRoute');
+const saleRoute = require('./routes/saleRoute');
 
 const app = express();
 
 app.use(express.json());
 app.use('/products', productRoute);
+app.use('/sales', saleRoute);
 
 app.use((err, _req, res, _next) => {
   const { message } = err;
   switch (message) {
+    // case '"productId" is required':
+    //   res.status(400).json({ message });
+    //   break;
+    // case '"quantity" is required':
+    //   res.status(400).json({ message });
+    //   break;
+    // case '"quantity" must be greater than or equal to 1':
+    //   res.status(422).json({ message });
+    //   break;
     case '"name" is required':
       res.status(400).json({ message });
       break;
@@ -16,7 +27,7 @@ app.use((err, _req, res, _next) => {
       res.status(422).json({ message });
       break;
     default:
-      res.status(500).json(message);
+      res.status(500).json(err);
       break;
   }
 });

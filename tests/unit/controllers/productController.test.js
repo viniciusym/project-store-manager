@@ -1,9 +1,12 @@
 const sinon = require('sinon');
 const { expect } = require('chai');
+const chai = require('chai');
 const productService = require('../../../services/productService');
 const productController = require('../../../controllers/productController');
+const chaiAsPromised = require('chai-as-promised');
+chai.use(chaiAsPromised);
 
-describe('/services/productService', () => {
+describe('controllers/productController', () => {
   beforeEach(() => sinon.restore());
 
   describe('getAll', () => {
@@ -63,11 +66,12 @@ describe('/services/productService', () => {
   });
 
   describe('insertNew', () => {
-    it('deve retornar o status 201 e uma lista de produtos', async () => {
+    it('deve retornar o status 201 e uma lista de produtos caso as validações passarem', async () => {
       const response = {};
       const request = {};
       request.body = { name: '1' };
       const newProductObject = { name: '1', id: 1 };
+      sinon.stub(productService, 'validateNewProduct').resolves();
       sinon.stub(productService, 'insertNew').resolves(newProductObject);
       response.status = sinon.stub().returns(response);
       response.json = sinon.stub().returns();
