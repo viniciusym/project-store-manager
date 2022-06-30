@@ -16,6 +16,7 @@ const productController = {
   },
   async insertNew(req, res) {
     const { body } = req;
+    await productService.validateNewProduct(body);
     const newProductObject = await productService.insertNew(body);
     res.status(201).json(newProductObject);
   },

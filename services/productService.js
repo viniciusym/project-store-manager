@@ -1,3 +1,4 @@
+const Joi = require('joi');
 const productModel = require('../models/productModel');
 
 const productService = {
@@ -17,6 +18,12 @@ const productService = {
     const productInsertedId = await productModel.insertNew(product);
     const newProductObject = { id: productInsertedId, ...product };
     return newProductObject;
+  },
+  async validateNewProduct(product) {
+    const schema = Joi.object({
+      name: Joi.string().min(5).required(),
+    });
+    await schema.validateAsync(product);
   },
 };
 
