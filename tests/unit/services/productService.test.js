@@ -28,6 +28,22 @@ describe('/services/productService', () => {
     });
   });
 
+
+  describe('checkIfListOfProductsExists', () => {
+    it('deve retornar true caso todos os produtos existam', async () => {
+      sinon.stub(productModel, 'exists').resolves(true);
+      const productsExists = await productService.checkIfListOfProductsExists([{}]);
+
+      expect(productsExists).to.be.true
+    });
+    it('deve retornar false caso algum produto não exista', async () => {
+      sinon.stub(productModel, 'exists').resolves(false);
+      const productsExists = await productService.checkIfListOfProductsExists([{}]);
+
+      expect(productsExists).to.be.false
+    })
+  });
+
   describe('exists', () => {
     it('deve retornar false caso o model não ache o produto', async () => {
       sinon.stub(productModel, 'exists').returns(false);

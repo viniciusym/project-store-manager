@@ -1,6 +1,7 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
 const saleController = require('../../../controllers/saleController');
+const productService = require('../../../services/productService');
 const saleService = require('../../../services/saleService');
 
 describe('controllers/saleController', () => {
@@ -23,7 +24,7 @@ describe('controllers/saleController', () => {
         ]
       };
 
-      sinon.stub(saleService, 'checkIfProductsExists').resolves(true);
+      sinon.stub(productService, 'checkIfListOfProductsExists').resolves(true);
       sinon.stub(saleService, 'validateNewSale').resolves();
       sinon.stub(saleService, 'makeNewSale').resolves(saleData);
       
@@ -42,7 +43,7 @@ describe('controllers/saleController', () => {
 
       const productNotFoundMessage = { message: 'Product not found' };
 
-      sinon.stub(saleService, 'checkIfProductsExists').resolves(false);
+      sinon.stub(productService, 'checkIfListOfProductsExists').resolves(false);
       sinon.stub(saleService, 'validateNewSale').resolves();
       sinon.stub(saleService, 'makeNewSale').resolves();
 

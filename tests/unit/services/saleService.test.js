@@ -26,21 +26,7 @@ describe('services/saleService', () => {
       expect(response).to.deep.equal(saleData);
     })
   });
-
-  describe('checkIfProductsExists', () => {
-    it('deve retornar true caso todos os produtos existam', async () => {
-      sinon.stub(productModel, 'exists').resolves(true);
-      const productsExists = await saleService.checkIfProductsExists([{}]);
-
-      expect(productsExists).to.be.true
-    });
-    it('deve retornar false caso algum produto não exista', async () => {
-      sinon.stub(productModel, 'exists').resolves(false);
-      const productsExists = await saleService.checkIfProductsExists([{}]);
-
-      expect(productsExists).to.be.false
-    })
-  });
+  
   describe('exists', () => {
     it('deve retornar false quando o service não encontrar a venda', async () => {
       sinon.stub(saleModel, 'exists').resolves(false);

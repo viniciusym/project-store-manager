@@ -33,6 +33,16 @@ const saleService = {
     };
     return saleobject;
   },
+  async update(saleChanges, id) {
+    const salesChangeValues = saleChanges
+      .map(({ productId, quantity }) => ([productId, quantity]));
+    await saleModel.update(salesChangeValues, id);
+    const saleobject = {
+      id,
+      itemsSold: saleChanges,
+    };
+    return saleobject;
+  },
   async delete(id) {
     await saleModel.delete(id);
   },

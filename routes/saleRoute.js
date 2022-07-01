@@ -12,6 +12,8 @@ saleRoute.get('', saleController.getAll);
 
 saleRoute.delete('/:id', saleController.delete);
 
+saleRoute.put('/:id', rescue(saleController.update));
+
 saleRoute.use((err, _req, res, _next) => {
   const { message } = err;
   const regexProductId = /.+?\.productId/;
@@ -27,6 +29,7 @@ saleRoute.use((err, _req, res, _next) => {
       res.status(400).json({ message: '"quantity" is required' });
       break;
     default:
+      res.satus(500).json(err);
       break;
   }
 });
