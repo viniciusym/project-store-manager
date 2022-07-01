@@ -19,6 +19,10 @@ const productService = {
     const newProductObject = { id: productInsertedId, ...product };
     return newProductObject;
   },
+  async update(productChanges, id) {
+    const update = await productModel.update(productChanges, id);
+    return update;
+  },
   async validateNewProduct(product) {
     const schema = Joi.object({
       name: Joi.string().min(5).required(),
