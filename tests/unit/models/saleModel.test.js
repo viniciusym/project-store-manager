@@ -65,7 +65,7 @@ describe('models/saleModel', () => {
 
       expect(sale).to.be.undefined;
     });
-    it('deve retornar um array com as vendas e seus ids', async () => {
+    it('deve retornar um array com as vendas', async () => {
       const salesList = [
         {
           "date": "2022-06-30T22:50:18.000Z",
@@ -82,6 +82,44 @@ describe('models/saleModel', () => {
       sinon.stub(connection, 'query').resolves([salesList]);
 
       const sale = await saleModel.getById(1);
+
+      expect(sale).to.deep.equal(salesList);
+    });
+  });
+
+  describe('getAll', () => {
+    it('deve retornar undefined quando o DB não retornar a venda', async () => {
+      sinon.stub(connection, 'query').resolves([]);
+
+      const sale = await saleModel.getAll();
+
+      expect(sale).to.be.undefined;
+    });
+    it('deve retornar um array com as vendas', async () => {
+      const salesList = [
+        {
+          "saleId": 1,
+          "date": "2022-06-30T22:50:18.000Z",
+          "productId": 1,
+          "quantity": 5
+        },
+        {
+          "saleId": 1,
+          "date": "2022-06-30T22:50:18.000Z",
+          "productId": 2,
+          "quantity": 10
+        },
+        {
+          "saleId": 2,
+          "date": "2022-06-30T22:50:18.000Z",
+          "productId": 3,
+          "quantity": 15
+        }
+      ]
+
+      sinon.stub(connection, 'query').resolves([salesList]);
+
+      const sale = await saleModel.getAll(1);
 
       expect(sale).to.deep.equal(salesList);
     });
