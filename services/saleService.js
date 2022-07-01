@@ -35,7 +35,7 @@ const saleService = {
     return saleobject;
   },
   async delete(id) {
-
+    await saleModel.delete(id);
   },
 };
 

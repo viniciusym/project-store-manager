@@ -10,6 +10,8 @@ saleRoute.get('/:id', saleController.getById);
 
 saleRoute.get('', saleController.getAll);
 
+saleRoute.delete('/:id', saleController.delete);
+
 saleRoute.use((err, _req, res, _next) => {
   const { message } = err;
   const regexProductId = /.+?\.productId/;

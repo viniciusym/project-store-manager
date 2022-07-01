@@ -26,6 +26,16 @@ const saleController = {
     const sales = await saleService.getById(id);
     res.status(200).json(sales);
   },
+  async delete(req, res) {
+    const { id } = req.params;
+    const saleNotFoundMessage = { message: 'Sale not found' };
+    const saleExists = await saleService.exists(id);
+    if (!saleExists) {
+      return res.status(404).json(saleNotFoundMessage);
+    }
+    await saleService.delete(id);
+    res.sendStatus(204);
+  },
 };
 
 module.exports = saleController;
