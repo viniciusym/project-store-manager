@@ -79,4 +79,24 @@ describe('models/productModel', () => {
     });
   });
 
+  describe('update', () => {
+    it('a função não deve retornar nada', async () => {
+      sinon.stub(connection, 'query').resolves();
+
+      const response = await productModel.update();
+
+      expect(response).to.be.undefined
+    });
+  });
+
+  describe('delete', () => {
+    it('a função não deve retornar nada', async () => {
+      sinon.stub(connection, 'query').resolves();
+
+      const response = await productModel.delete();
+
+      expect(response).to.be.undefined
+    });
+  });
+
 });

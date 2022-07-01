@@ -23,13 +23,11 @@ const productModel = {
   },
   async update(productChanges, id) {
     const sql = 'update StoreManager.products set ? where id = ?';
-    const [{ affectedRows }] = await connection.query(sql, [productChanges, id]);
-    return affectedRows;
+    await connection.query(sql, [productChanges, id]);
   },
   async delete(id) {
     const sql = 'delete from StoreManager.products where id = ?';
-    const [{ affectedRows }] = await connection.query(sql, [id]);
-    return affectedRows;
+    await connection.query(sql, [id]);
   },
 };
 

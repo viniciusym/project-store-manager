@@ -79,4 +79,23 @@ describe('/services/productService', () => {
       expect(response).to.deep.equal({ id: 1, name: 'product' });
     });
   });
+  describe('update', () => {
+    it('deve retornar um obejto com o id e as alteração feitas no produto', async () => {
+      sinon.stub(productModel, 'update').resolves;
+
+      const response = await productService.update({ name: 'a' }, 1);
+
+      expect(response).to.deep.equal({ name: 'a', id: 1 });
+    });
+  });
+
+  describe('delete', () => {
+    it('não deve retornar nada', async () => {
+      sinon.stub(productModel, 'delete').resolves;
+
+      const response = await productService.delete(1);
+
+      expect(response).to.be.undefined
+    });
+  });
 });

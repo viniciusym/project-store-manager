@@ -82,4 +82,73 @@ describe('controllers/productController', () => {
       expect(response.json.calledWith(newProductObject)).to.be.equal(true);
     });
   });
+
+  describe('update', () => {
+    it('deve retornar o status 200 e o objeto do produto atualizado quando o service retornar com sucesso as validações', async () => {
+      const response = {};
+      const request = {};
+      const productObject = { id: 1, name: 'Martelo do Batman' }
+      sinon.stub(productService, 'update').resolves(productObject);
+      sinon.stub(productService, 'exists').resolves(true);
+      request.params = {
+        id: 1
+      }
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+
+      await productController.update(request, response);
+
+      expect(response.status.calledWith(200)).to.be.equal(true);
+      expect(response.json.calledWith(productObject)).to.be.equal(true);
+    });
+    it('se o produto não existir deve retornar o status 404 e o a mensagem "Product not found" ', async () => {
+      const response = {};
+      const request = {};
+      const productNotFoundMessage = { message: 'Product not found' };
+      sinon.stub(productService, 'exists').resolves(false);
+      request.params = {
+        id: 2
+      }
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+
+      await productController.update(request, response);
+
+      expect(response.status.calledWith(404)).to.be.equal(true);
+      expect(response.json.calledWith(productNotFoundMessage)).to.be.equal(true);
+    });
+  });
+
+  describe('delete', () => {
+    it('deve retornar somente o status 204 quando o service retornar com sucesso todas as validações e a remoção do produto', async () => {
+      const response = {};
+      const request = {};
+      sinon.stub(productService, 'delete').resolves();
+      sinon.stub(productService, 'exists').resolves(true);
+      request.params = {
+        id: 1
+      }
+      response.sendStatus = sinon.stub().returns(response);
+
+      await productController.delete(request, response);
+
+      expect(response.sendStatus.calledWith(204)).to.be.equal(true);
+    });
+    it('se o produto não existir deve retornar o status 404 e o a mensagem "Product not found" ', async () => {
+      const response = {};
+      const request = {};
+      const productNotFoundMessage = { message: 'Product not found' };
+      sinon.stub(productService, 'exists').resolves(false);
+      request.params = {
+        id: 2
+      }
+      response.status = sinon.stub().returns(response);
+      response.json = sinon.stub().returns();
+
+      await productController.delete(request, response);
+
+      expect(response.status.calledWith(404)).to.be.equal(true);
+      expect(response.json.calledWith(productNotFoundMessage)).to.be.equal(true);
+    });
+  });
 });
