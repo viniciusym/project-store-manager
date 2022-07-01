@@ -20,8 +20,8 @@ const productService = {
     return newProductObject;
   },
   async update(productChanges, id) {
-    const update = await productModel.update(productChanges, id);
-    return update;
+    await productModel.update(productChanges, id);
+    return { ...productChanges, id };
   },
   async validateNewProduct(product) {
     const schema = Joi.object({
@@ -31,4 +31,4 @@ const productService = {
   },
 };
 
-module.exports = productService;
+module.exports = productService;  
