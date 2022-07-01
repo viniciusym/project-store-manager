@@ -29,6 +29,9 @@ const productService = {
     });
     await schema.validateAsync(product);
   },
+  async delete(id) {
+    await productModel.delete(id);
+  },
 };
 
 module.exports = productService;  
