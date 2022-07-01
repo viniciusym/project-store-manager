@@ -29,6 +29,14 @@ const productService = {
     });
     await schema.validateAsync(product);
   },
+  async checkIfListOfProductsExists(products) {
+    const existsPromises = [];
+    products.forEach(async ({ productId }) => {
+      existsPromises.push(productModel.exists(productId));
+    });
+    const existsAll = await Promise.all(existsPromises);
+    return existsAll.every((productExists) => productExists);
+  },
   async delete(id) {
     await productModel.delete(id);
   },

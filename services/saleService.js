@@ -34,13 +34,8 @@ const saleService = {
     };
     return saleobject;
   },
-  async checkIfProductsExists(products) {
-    const existsPromises = [];
-    products.forEach(async ({ productId }) => {
-      existsPromises.push(exists(productId));
-    });
-    const existsAll = await Promise.all(existsPromises);
-    return existsAll.every((productExists) => productExists); 
+  async delete(id) {
+
   },
 };
 
