@@ -51,8 +51,90 @@ describe('controllers/saleController', () => {
 
       expect(res.status.calledWith(404)).to.be.true;
       expect(res.json.calledWith(productNotFoundMessage)).to.be.true;
-    })
+    });
   });
 
+  describe('getAll', () => {
+    it('deve retornar o status 200 e uma lista com todas as vendas', async () => {
+      const salesList = [
+        {
+          "saleId": 1,
+          "date": "2022-06-30T22:50:18.000Z",
+          "productId": 1,
+          "quantity": 5
+        },
+        {
+          "saleId": 1,
+          "date": "2022-06-30T22:50:18.000Z",
+          "productId": 2,
+          "quantity": 10
+        },
+        {
+          "saleId": 2,
+          "date": "2022-06-30T22:50:18.000Z",
+          "productId": 3,
+          "quantity": 15
+        }
+      ];
+
+      const req = {};
+      const res = {};
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(saleService, 'getAll').resolves(salesList);
+
+      await saleController.getAll(req, res);
+
+      expect(res.status.calledWith(200)).to.be.true;
+      expect(res.json.calledWith(salesList)).to.be.true;
+    });
+  });
+
+  describe('getById', () => {
+    it('deve retornar o status 200 e uma lista com todas as vendas com o id selecionado caso a validação do id no service passe', async () => {
+      const salesList = [
+        {
+          "saleId": 1,
+          "date": "2022-06-30T22:50:18.000Z",
+          "productId": 1,
+          "quantity": 5
+        },
+        {
+          "saleId": 1,
+          "date": "2022-06-30T22:50:18.000Z",
+          "productId": 2,
+          "quantity": 10
+        },
+      ];
+
+      const req = {};
+      const res = {};
+      req.params = { id: 1 };
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(saleService, 'getById').resolves(salesList);
+      sinon.stub(saleService, 'exists').resolves(true);
+
+      await saleController.getById(req, res);
+
+      expect(res.status.calledWith(200)).to.be.true;
+      expect(res.json.calledWith(salesList)).to.be.true;
+    });
+
+    it('deve retornar o status 404 e a mensagem "Sale not found" caso a validação do id no service não passe', async () => {
+      const saleNotFoundMessage = { message: 'Sale not found' };
+      const req = {};
+      const res = {};
+      req.params = { id: 1 };
+      res.status = sinon.stub().returns(res);
+      res.json = sinon.stub().returns();
+      sinon.stub(saleService, 'exists').resolves(false);
+
+      await saleController.getById(req, res);
+
+      expect(res.status.calledWith(404)).to.be.true;
+      expect(res.json.calledWith(saleNotFoundMessage)).to.be.true;
+    });
+  });
   
 });
