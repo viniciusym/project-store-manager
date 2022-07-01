@@ -1,6 +1,5 @@
 const Joi = require('joi');
 const saleModel = require('../models/saleModel');
-const { exists } = require('./productService');
 
 const saleService = {
   async getAll() {
