@@ -12,10 +12,7 @@ const productController = {
   },
   async getById(req, res) {
     const { id } = req.params;
-    const productExits = await productService.exists(id);
-    if (!productExits) {
-      return res.status(404).json({ message: 'Product not found' });
-    }
+    await productService.exists(id);
     const product = await productService.getById(id);
     res.status(200).json(product);
   },
@@ -29,19 +26,13 @@ const productController = {
     const { body } = req;
     const { id } = req.params;
     await productService.validateNewProduct(body);
-    const productExits = await productService.exists(id);
-    if (!productExits) {
-      return res.status(404).json({ message: 'Product not found' });
-    }
+    await productService.exists(id);
     const updatedProduct = await productService.update(body, id);
     res.status(200).json(updatedProduct);
   },
   async delete(req, res) {
     const { id } = req.params;
-    const productExits = await productService.exists(id);
-    if (!productExits) {
-      return res.status(404).json({ message: 'Product not found' });
-    }
+    await productService.exists(id);
     await productService.delete(id);
     res.sendStatus(204);
   },

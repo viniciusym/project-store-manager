@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const ProductNotFoundError = require('../errors/ProductNotFoundError');
 const productModel = require('../models/productModel');
 
 const productService = {
@@ -8,7 +9,9 @@ const productService = {
   },
   async exists(id) {
     const productExists = await productModel.exists(id);
-    return productExists;
+    if (!productExists) {
+      throw new ProductNotFoundError('Product not found');
+    }
   },
   async getById(id) {
     const product = await productModel.getById(id);

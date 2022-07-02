@@ -11,15 +11,9 @@ app.use('/sales', saleRoute);
 app.use((err, _req, res, _next) => {
   const { message } = err;
   switch (message) {
-    // case '"productId" is required':
-    //   res.status(400).json({ message });
-    //   break;
-    // case '"quantity" is required':
-    //   res.status(400).json({ message });
-    //   break;
-    // case '"quantity" must be greater than or equal to 1':
-    //   res.status(422).json({ message });
-    //   break;
+    case 'Product not found':
+      res.status(404).json({ message });
+      break;
     case '"name" is required':
       res.status(400).json({ message });
       break;
