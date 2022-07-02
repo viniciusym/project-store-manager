@@ -37,8 +37,11 @@ const productService = {
     products.forEach(async ({ productId }) => {
       existsPromises.push(productModel.exists(productId));
     });
-    const existsAll = await Promise.all(existsPromises);
-    return existsAll.every((productExists) => productExists);
+    const existsList = await Promise.all(existsPromises);
+    const existsAll = existsList.every((productExists) => productExists);
+    if (!existsAll) {
+      throw new ProductNotFoundError('Product not found');
+    }
   },
   async getByTerm(term) {
     const product = await productModel.getByTerm(term);

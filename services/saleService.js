@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const SaleNotFoundError = require('../errors/SaleNotFoundError');
 const saleModel = require('../models/saleModel');
 
 const productIdKey = 'product_id';
@@ -10,7 +11,9 @@ const saleService = {
   },
   async exists(id) {
     const saleExists = await saleModel.exists(id);
-    return saleExists;
+    if (!saleExists) {
+      throw new SaleNotFoundError('Sale not found');
+    }
   },
   async getById(id) {
     const sales = await saleModel.getById(id);
