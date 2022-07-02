@@ -1,7 +1,11 @@
 const sinon = require('sinon');
 const { expect } = require('chai');
+const chai = require('chai');
+const chaiAsPromised = require('chai-as-promised');
 const productModel = require('../../../models/productModel');
 const productService = require('../../../services/productService');
+
+chai.use(chaiAsPromised);
 
 describe('/services/productService', () => {
   beforeEach(() => sinon.restore());
@@ -36,18 +40,18 @@ describe('/services/productService', () => {
 
       expect(productsExists).to.be.undefined;
     });
-    it('deve disparar um erro caso algum produto não exista', async () => {
+    it('deve disparar um erro caso algum produto não exista', () => {
       sinon.stub(productModel, 'exists').resolves(false);
 
-      expect(async () => await productService.checkIfListOfProductsExists([{}])).to.throw;
+      return expect(productService.checkIfListOfProductsExists([{}])).to.eventually.throw;
     })
   });
 
   describe('exists', () => {
-    it('deve disparar um erro caso o model não ache o produto', async () => {
+    it('deve disparar um erro caso o model não ache o produto', () => {
       sinon.stub(productModel, 'exists').resolves(false);
 
-      expect(async () => await productService.exists()).to.throw;
+      return expect(productService.exists()).to.eventually.throw;
     });
     it('deve retornar nada caso o model ache o produto', async () => {
       sinon.stub(productModel, 'exists').resolves(true);
