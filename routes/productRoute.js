@@ -10,7 +10,7 @@ productRoute.get('/search', rescue(productController.getByTerm));
 
 productRoute.get('/:id', rescue(productController.getById));
 
-productRoute.post('', rescue(productController.insertNew));
+productRoute.post('/', rescue(productController.insertNew));
 
 productRoute.put('/:id', rescue(productController.update));
 

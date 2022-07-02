@@ -5,11 +5,11 @@ const saleErrorHandlers = require('../middlewares/saleErrorHandlers');
 
 const saleRoute = Router();
 
-saleRoute.post('', rescue(saleController.makeNewSale));
+saleRoute.post('/', rescue(saleController.makeNewSale));
 
 saleRoute.get('/:id', rescue(saleController.getById));
 
-saleRoute.get('', rescue(saleController.getAll));
+saleRoute.get('/', rescue(saleController.getAll));
 
 saleRoute.delete('/:id', rescue(saleController.delete));
 

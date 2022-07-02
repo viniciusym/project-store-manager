@@ -24,7 +24,7 @@ describe('controllers/saleController', () => {
         ]
       };
 
-      sinon.stub(productService, 'checkIfListOfProductsExists').resolves(true);
+      sinon.stub(productService, 'checkIfListOfProductsExists').resolves();
       sinon.stub(saleService, 'validateNewSale').resolves();
       sinon.stub(saleService, 'makeNewSale').resolves(saleData);
       
@@ -95,7 +95,7 @@ describe('controllers/saleController', () => {
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
       sinon.stub(saleService, 'getById').resolves(salesList);
-      sinon.stub(saleService, 'exists').resolves(true);
+      sinon.stub(saleService, 'exists').resolves();
 
       await saleController.getById(req, res);
 

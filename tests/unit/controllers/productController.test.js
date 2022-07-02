@@ -35,7 +35,7 @@ describe('controllers/productController', () => {
       const request = {};
       const productObject= { id: 1, name: 'Martelo de Thor' }
       sinon.stub(productService, 'getById').resolves(productObject);
-      sinon.stub(productService, 'exists').resolves(true);
+      sinon.stub(productService, 'exists').resolves();
       request.params = {
         id: 1
       }
@@ -73,7 +73,7 @@ describe('controllers/productController', () => {
       const request = {};
       const productObject = { id: 1, name: 'Martelo do Batman' }
       sinon.stub(productService, 'update').resolves(productObject);
-      sinon.stub(productService, 'exists').resolves(true);
+      sinon.stub(productService, 'exists').resolves();
       request.params = {
         id: 1
       }
@@ -92,7 +92,7 @@ describe('controllers/productController', () => {
       const response = {};
       const request = {};
       sinon.stub(productService, 'delete').resolves();
-      sinon.stub(productService, 'exists').resolves(true);
+      sinon.stub(productService, 'exists').resolves();
       request.params = {
         id: 1
       }
