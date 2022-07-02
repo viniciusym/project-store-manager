@@ -15,13 +15,18 @@ const saleController = {
   async update(req, res) {
     const { body } = req;
     const { id } = req.params;
+    await saleService.validateNewSale(body);
+    const listOfProductsExists = await productService.checkIfListOfProductsExists(body);
     const saleNotFoundMessage = { message: 'Sale not found' };
     const saleExists = await saleService.exists(id);
     if (!saleExists) {
       return res.status(404).json(saleNotFoundMessage);
     }
-    const saleUpdates = await saleService.update(body, id);
-    res.status(200).json(saleUpdates);
+    if (listOfProductsExists) {
+      const saleUpdates = await saleService.update(body, id);
+      return res.status(200).json(saleUpdates);
+    }
+    return res.status(404).json({ message: 'Product not found' });
   },
   async getAll(_req, res) {
     const allSales = await saleService.getAll();

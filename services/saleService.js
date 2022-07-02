@@ -1,6 +1,8 @@
 const Joi = require('joi');
 const saleModel = require('../models/saleModel');
 
+const productIdKey = 'product_id';
+
 const saleService = {
   async getAll() {
     const allSales = await saleModel.getAll();
@@ -34,14 +36,23 @@ const saleService = {
     return saleobject;
   },
   async update(saleChanges, id) {
-    const salesChangeValues = saleChanges
-      .map(({ productId, quantity }) => ([productId, quantity]));
-    await saleModel.update(salesChangeValues, id);
-    const saleobject = {
-      id,
-      itemsSold: saleChanges,
+    const allSales = await saleModel.getSalesForUpdate(id);
+    const updatePromises = allSales
+      .map(async (sale, index) => {
+        const oldSaleValues = Object.values(sale);
+        const changesObject = {
+          [productIdKey]: saleChanges[index].productId,
+          quantity: saleChanges[index].quantity,
+        };
+        const promise = saleModel.update(changesObject, id, oldSaleValues);
+        return promise;
+      });
+    await Promise.all(updatePromises);
+    const updateObject = {
+      saleId: id,
+      itemsUpdated: saleChanges,
     };
-    return saleobject;
+    return updateObject;
   },
   async delete(id) {
     await saleModel.delete(id);

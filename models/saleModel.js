@@ -17,16 +17,22 @@ const saleModel = {
     const [{ affectedRows }] = await connection.query(sql, [products]); 
     return affectedRows;
   },
-  async update(saleChanges, id) {
+  async update(saleChanges, id, oldSale) {
     const sql = `
-    update StoreManager.sales_products(product_id, quantity) values
-      ? where sale_id = ?`;
-    const response = await connection.query(sql, [saleChanges, id]);
+    update StoreManager.sales_products set ? where sale_id = ? and product_id = ? and quantity = ?`;
+    const response = await connection.query(sql, [saleChanges, id, ...oldSale]);
     return response;
   },
   async getById(id) {
     const sql = `
     select date, product_id as productId, quantity from StoreManager.sales as a
+    join StoreManager.sales_products as sl on sl.sale_id = a.id where a.id = ?`;
+    const [sales] = await connection.query(sql, [id]);
+    return sales;
+  },
+  async getSalesForUpdate(id) {
+    const sql = `
+    select product_id, quantity from StoreManager.sales as a
     join StoreManager.sales_products as sl on sl.sale_id = a.id where a.id = ?`;
     const [sales] = await connection.query(sql, [id]);
     return sales;
