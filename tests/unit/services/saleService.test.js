@@ -28,19 +28,17 @@ describe('services/saleService', () => {
   });
   
   describe('exists', () => {
-    it('deve retornar false quando o service não encontrar a venda', async () => {
-      sinon.stub(saleModel, 'exists').resolves(false);
-
-      const saleExists = await saleService.exists(111);
-
-      expect(saleExists).to.be.false;
-    });
-    it('deve retornar true quando o service encontrar a venda', async () => {
+    it('deve retornar nada quando o service encontrar a venda', async () => {
       sinon.stub(saleModel, 'exists').resolves(true);
 
       const saleExists = await saleService.exists(1);
 
-      expect(saleExists).to.be.true;
+      expect(saleExists).to.be.undefined;
+    });
+    it('deve disparar um erro quando o service não encontrar a venda', async () => {
+      sinon.stub(saleModel, 'exists').resolves(false);
+
+      expect(async () => await saleService.exists(111)).to.throw;
     });
   });
 

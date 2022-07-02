@@ -34,25 +34,6 @@ describe('controllers/saleController', () => {
       expect(res.status.calledWith(201)).to.be.true;
       expect(res.json.calledWith(saleData)).to.be.true;
     });
-
-    it('deve retornar o status 404 e a mensagem "Product not found" caso a validação dos ids dos produtos não passe', async () => {
-      const req = {};
-      const res = {};
-      res.status = sinon.stub().returns(res);
-      res.json = sinon.stub().returns();
-
-      const productNotFoundMessage = { message: 'Product not found' };
-
-      sinon.stub(productService, 'checkIfListOfProductsExists').resolves(false);
-      sinon.stub(saleService, 'validateNewSale').resolves();
-      sinon.stub(saleService, 'makeNewSale').resolves();
-
-
-      await saleController.makeNewSale(req, res);
-
-      expect(res.status.calledWith(404)).to.be.true;
-      expect(res.json.calledWith(productNotFoundMessage)).to.be.true;
-    });
   });
 
   describe('getAll', () => {
@@ -120,21 +101,6 @@ describe('controllers/saleController', () => {
 
       expect(res.status.calledWith(200)).to.be.true;
       expect(res.json.calledWith(salesList)).to.be.true;
-    });
-
-    it('deve retornar o status 404 e a mensagem "Sale not found" caso a validação do id no service não passe', async () => {
-      const saleNotFoundMessage = { message: 'Sale not found' };
-      const req = {};
-      const res = {};
-      req.params = { id: 1 };
-      res.status = sinon.stub().returns(res);
-      res.json = sinon.stub().returns();
-      sinon.stub(saleService, 'exists').resolves(false);
-
-      await saleController.getById(req, res);
-
-      expect(res.status.calledWith(404)).to.be.true;
-      expect(res.json.calledWith(saleNotFoundMessage)).to.be.true;
     });
   });
   

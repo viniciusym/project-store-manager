@@ -30,34 +30,31 @@ describe('/services/productService', () => {
 
 
   describe('checkIfListOfProductsExists', () => {
-    it('deve retornar true caso todos os produtos existam', async () => {
+    it('deve retornar nada caso todos os produtos existam', async () => {
       sinon.stub(productModel, 'exists').resolves(true);
       const productsExists = await productService.checkIfListOfProductsExists([{}]);
 
-      expect(productsExists).to.be.true
+      expect(productsExists).to.be.undefined;
     });
-    it('deve retornar false caso algum produto não exista', async () => {
+    it('deve disparar um erro caso algum produto não exista', async () => {
       sinon.stub(productModel, 'exists').resolves(false);
-      const productsExists = await productService.checkIfListOfProductsExists([{}]);
 
-      expect(productsExists).to.be.false
+      expect(async () => await productService.checkIfListOfProductsExists([{}])).to.throw;
     })
   });
 
   describe('exists', () => {
-    it('deve retornar false caso o model não ache o produto', async () => {
-      sinon.stub(productModel, 'exists').returns(false);
+    it('deve disparar um erro caso o model não ache o produto', async () => {
+      sinon.stub(productModel, 'exists').resolves(false);
 
-      const response = await productService.exists();
-
-      expect(response).to.be.false;
+      expect(async () => await productService.exists()).to.throw;
     });
-    it('deve retornar true caso o model ache o produto', async () => {
-      sinon.stub(productModel, 'exists').returns(true);
+    it('deve retornar nada caso o model ache o produto', async () => {
+      sinon.stub(productModel, 'exists').resolves(true);
 
       const response = await productService.exists();
 
-      expect(response).to.be.true;
+      expect(response).to.be.undefined;
     });
   });
 

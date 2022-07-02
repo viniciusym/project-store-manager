@@ -1,4 +1,3 @@
-const ProductNotFoundError = require('../errors/ProductNotFoundError');
 const productService = require('../services/productService');
 const saleService = require('../services/saleService');
 
