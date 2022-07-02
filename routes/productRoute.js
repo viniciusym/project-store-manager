@@ -6,6 +6,8 @@ const productRoute = Router();
 
 productRoute.get('/', productController.getAll);
 
+productRoute.get('/search', productController.getByTerm);
+
 productRoute.get('/:id', productController.getById);
 
 productRoute.post('', rescue(productController.insertNew));

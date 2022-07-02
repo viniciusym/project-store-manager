@@ -37,6 +37,10 @@ const productService = {
     const existsAll = await Promise.all(existsPromises);
     return existsAll.every((productExists) => productExists);
   },
+  async getByTerm(term) {
+    const product = await productModel.getByTerm(term);
+    return product;
+  },
   async delete(id) {
     await productModel.delete(id);
   },

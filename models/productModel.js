@@ -29,6 +29,11 @@ const productModel = {
     const sql = 'delete from StoreManager.products where id = ?';
     await connection.query(sql, [id]);
   },
+  async getByTerm(term) {
+    const sql = 'select * from StoreManager.products where name like concat("%", ?, "%")';
+    const [products] = await connection.query(sql, [term]);
+    return products;
+  },
 };
 
 module.exports = productModel;

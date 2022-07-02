@@ -5,6 +5,11 @@ const productController = {
     const products = await productService.getAll();
     res.status(200).json(products);
   },
+  async getByTerm(req, res) {
+    const { q } = req.query;
+    const product = await productService.getByTerm(q);
+    res.status(200).json(product);
+  },
   async getById(req, res) {
     const { id } = req.params;
     const productExits = await productService.exists(id);
