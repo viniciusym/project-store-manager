@@ -3,6 +3,7 @@ class SaleNotFoundError extends Error {
     super(message);
 
     this.name = 'SaleNotFoundError';
+    this.status = 404;
   }
 }
 

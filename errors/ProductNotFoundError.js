@@ -3,6 +3,7 @@ class ProductNotFoundError extends Error {
     super(message);
 
     this.name = 'ProductNotFoundError';
+    this.status = 404;
   }
 }
 

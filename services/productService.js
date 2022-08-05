@@ -33,10 +33,7 @@ const productService = {
     await schema.validateAsync(product);
   },
   async checkIfListOfProductsExists(products) {
-    const existsPromises = [];
-    products.forEach(async ({ productId }) => {
-      existsPromises.push(productModel.exists(productId));
-    });
+    const existsPromises = products.map(({ productId }) => productModel.exists(productId));
     const existsList = await Promise.all(existsPromises);
     const existsAll = existsList.every((productExists) => productExists);
     if (!existsAll) {

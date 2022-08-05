@@ -15,8 +15,6 @@ saleRoute.delete('/:id', rescue(saleController.delete));
 
 saleRoute.put('/:id', rescue(saleController.update));
 
-saleRoute.use(saleErrorHandlers[0]);
-
-saleRoute.use(saleErrorHandlers[1]);
+saleRoute.use(saleErrorHandlers);
 
 module.exports = saleRoute;
